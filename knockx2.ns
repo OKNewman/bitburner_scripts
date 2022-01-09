@@ -33,7 +33,7 @@ export async function main(ns) {
 		ns.tprint("Door's already open! Let's make some money.");
 		ns.run("kitdrop.ns",1,target);
 		ns.tprint("Ran kitdrop, gonna try to remote execute a hack loop on " + target);
-		ns.exec("quitHackinYourself.ns", target, 1, target, 1);
+		ns.exec("itsReal.ns", target, 1, target, 1);
 		return
 		//get total RAM
 		//launch QHS no args with x number of threads
@@ -45,8 +45,11 @@ export async function main(ns) {
 			ns.print("Could not find OpenUpTheDoor.ns! Did it get deleted from home?");
 			ns.print("Moving on...");
 		}
+		ns.tprint("WITH A NON-STOP, KITDROP, MY CASE IS STEEL!")
+		ns.run("kitdrop.ns",1,target);
 		tygn()
-		ns.exec("OpenUpTheDoor.ns", target, 1);
+		ns.exec("OpenUpTheDoor.ns", target, 1, target, 1);
+		ns.tprint("DEBUG: Huh. OpenUpTheDoor.ns exec failed. Fix it.")
 	}
 	ns.tprint("-------------End of KNOCK KNOCK!-------------");
 	return
