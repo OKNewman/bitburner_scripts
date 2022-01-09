@@ -1,0 +1,86 @@
+/** @param {NS} ns **/
+export async function main(ns) {
+	var target = ns.getHostname()
+
+	if (ns.args[0] != null) {
+		target = ns.args[0]
+	}
+	ns.tprint("Opening up " + target + "\n");
+
+	var myHacking = ns.getHackingLevel();
+	var minHacking = ns.getServerRequiredHackingLevel(target);
+
+	if (myHacking < minHacking) {
+		ns.tprint("ABORTING SCRIPT: Hacking Level is TOO LOW.")
+		ns.tprint("Killing script...")
+		ns.exit();
+	}
+
+	var portLocks = ns.getServerNumPortsRequired(target);
+	var hasFtp, hasSsh, hasSmtp, hasHttp, hasSql = false;
+	var toolbox = 0;
+
+	function toolCheck() {
+		ns.tprint("Checking tools...");
+		if (ns.fileExists("FTPCrack.exe", "home")) {
+			ns.tprint("FTP GOOD");
+			toolbox++;
+			hasFtp = true;
+		}
+		if (ns.fileExists("BruteSSH.exe", "home")) {
+			ns.tprint("SSH GOOD");
+			toolbox++;
+			hasSsh = true;
+		}
+		if (ns.fileExists("relaySMTP.exe", "home")) {
+			ns.tprint("SMTP GOOD");
+			toolbox++;
+			hasSmtp = true;
+		}
+		if (ns.fileExists("HTTPWorm.exe", "home")) {
+			ns.tprint("WORM GOOD");
+			toolbox++;
+			hasHttp = true;
+		}
+		if (ns.fileExists("SQLInject.exe", "home")) {
+			ns.tprint("SQL GOOD");
+			toolbox++;
+			hasSql = true;
+		}
+
+		ns.tprint("Checking equipment...")
+		if (portLocks > toolbox.length) {
+			ns.tprint("More locks than we've got tools. Cannot proceed with hack.");
+			ns.tprint("Closing...");
+			ns.exit();
+		}
+	}
+
+
+	ns.tprint("Tools OK!");
+
+	if (hasFtp == true) {
+		ns.ftpcrack(target);
+	}
+	if (hasSsh == true) {
+		ns.brutessh(target);
+	}
+	if (hasSmtp == true) {
+		ns.relaysmtp(target);
+	}
+	if (hasHttp == true) {
+		ns.httpworm(target);
+	}
+	if (hasSql == true){
+		ns.sqlinject(target);
+	}
+
+	toolCheck();
+
+	ns.tprint("Dropping the bomb...");
+	ns.nuke(target);
+
+	ns.tprint("Securing the bag.");
+	ns.exec("itsReal.ns", target, 1, target);
+	return
+}

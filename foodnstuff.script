@@ -1,0 +1,15 @@
+target = 'foodnstuff'
+while (true) {
+  secLev = getServerSecurityLevel(target);
+  servMoney = getServerMoneyAvailable(target);
+  print("Security Level: " + secLev);
+  print("Server Money: " + servMoney);
+  while (secLev > 4.000) {
+    weaken('foodnstuff');
+    secLev = getServerSecurityLevel(target);
+  }
+  if (servMoney < 400000.0) {
+    grow(target);
+  }
+  hack(target);
+}
