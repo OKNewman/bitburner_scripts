@@ -1,0 +1,13 @@
+//	" + newScriptName + " 
+\n//	by OKNewman
+\n//
+\n// 	Purpse: <why is this script>
+\n//	
+\n//	Runs: <Once/Forever, until manually stopped/and then ends.>
+\n//
+\n//	Recommended for: <platform to run>
+\n
+\n/** @param {NS} ns **/
+\nexport async function main(ns) {
+\n\t
+\n}
